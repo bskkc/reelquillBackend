@@ -47,12 +47,23 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        if (userService.validateUser(loginRequestDTO.getEmail(), loginRequestDTO.getPassword())) {
-            String token = jwtUtil.createToken(loginRequestDTO.getEmail());
+        User user = userService.validateUser(loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
 
-            LoginResponseDTO response = new LoginResponseDTO(token, "Giriş başarılı");
+        if (user != null) {
+            String token = jwtUtil.createToken(loginRequestDTO.getEmail());
+            LoginResponseDTO response = new LoginResponseDTO(token, "Giriş başarılı", user);
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(401).body("Unauthorized");
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<User> updateUser(@RequestBody User updatedUser) {
+        try {
+            User user = userService.updateUser(updatedUser);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

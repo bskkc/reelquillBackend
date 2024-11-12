@@ -1,6 +1,8 @@
 package com.example.reelquill.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -15,11 +17,15 @@ public class Quill {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Size(max = 50)
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "general_info_id")
     private Integer generalInfoId;
 
-    @Column(name = "content", length = 500)
-    private String content;
+    @Column(name = "quill", length = 500)
+    private String quill;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -53,19 +59,27 @@ public class Quill {
         this.generalInfoId = generalInfoId;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public @Size(max = 50) String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@Size(max = 50) String username) {
+        this.username = username;
+    }
+
+    public String getQuill() {
+        return quill;
+    }
+
+    public void setQuill(String quill) {
+        this.quill = quill;
     }
 }

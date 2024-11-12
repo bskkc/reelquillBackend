@@ -33,12 +33,25 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public boolean validateUser(String email, String password) {
+    public User validateUser(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            return user.getPassword().equals(password);
+            return user.getPassword().equals(password) ? user : null;
         }
-        return false;
+        return null;
+    }
+
+    public User updateUser(User updatedUser) {
+        int id = updatedUser.getId(); // ID'yi objeden alıyoruz
+        return userRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setUsername(updatedUser.getUsername());
+                    existingUser.setEmail(updatedUser.getEmail());
+                    existingUser.setPassword(updatedUser.getPassword());
+                    existingUser.setUpdateDate(LocalDateTime.now());
+                    return userRepository.save(existingUser);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

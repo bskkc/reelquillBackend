@@ -3,7 +3,7 @@ package com.example.reelquill.dto;
 public class QuillRequestDTO {
     private Integer userId;
     private Integer generalInfoId;
-    private String content;
+    private String quill;
 
     public Integer getUserId() {
         return userId;
@@ -21,11 +21,11 @@ public class QuillRequestDTO {
         this.generalInfoId = generalInfoId;
     }
 
-    public String getContent() {
-        return content;
+    public String getQuill() {
+        return quill;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setQuill(String content) {
+        this.quill = content;
     }
 }

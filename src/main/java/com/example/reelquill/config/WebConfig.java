@@ -1,4 +1,4 @@
-package com.example.reelquill.config; // Projenizin paket yapısına göre ayarlayın
+package com.example.reelquill.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +10,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Hangi endpointlere izin vereceğinizi belirtin
-                .allowedOrigins("http://localhost:3000") // Frontend uygulamanızın adresini buraya koyun
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+        registry.addMapping("/**") // Tüm yolları açar
+                .allowedOrigins("http://localhost:3000") // React uygulamanızın adresi
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // İzin verilen HTTP yöntemleri
+                .allowedHeaders("*"); // Tüm başlıkları kabul et
     }
 }

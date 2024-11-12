@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface QuillRepository extends JpaRepository<Quill, Integer> {
     Page<Quill> findByUserIdIn(List<Integer> userIds, Pageable pageable);
+    List<Quill> findByGeneralInfoId(Integer generalInfoId);
+    List<Quill> findByUserId(Integer userId);
 }

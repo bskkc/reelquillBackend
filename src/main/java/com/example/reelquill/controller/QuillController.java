@@ -30,29 +30,36 @@ public class QuillController {
     public ResponseEntity<Page<QuillResponseDTO>> getAllQuills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        Page<Quill> quills = quillService.getAllQuills(page, size);
-        return getPageResponseEntity(quills);
+        Page<QuillResponseDTO> responseDTOs = quillService.getAllQuills(page, size);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @PostMapping
     public ResponseEntity<Page<QuillResponseDTO>> createQuill(@RequestBody QuillRequestDTO requestDTO) {
-        Quill quill = new Quill();
-        quill.setUserId(requestDTO.getUserId());
-        quill.setGeneralInfoId(requestDTO.getGeneralInfoId());
-        quill.setContent(requestDTO.getContent());
+        quillService.createQuill(requestDTO);
 
-        quillService.createQuill(quill);
-
-        Page<Quill> quills = quillService.getAllQuills(0, 20);
-        return getPageResponseEntity(quills);
+        Page<QuillResponseDTO> responseDTOs = quillService.getAllQuills(0, 20);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/friends/{userId}")
     public ResponseEntity<Page<QuillResponseDTO>> getFriendsQuills(@PathVariable Integer userId,
                                                                    @RequestParam(defaultValue = "0") int page,
                                                                    @RequestParam(defaultValue = "20") int size) {
-        Page<Quill> quills = quillService.getFriendsQuills(userId, page, size);
-        return getPageResponseEntity(quills);
+        Page<QuillResponseDTO> quills = quillService.getFriendsQuills(userId, page, size);
+        return ResponseEntity.ok(quills);
+    }
+
+    @GetMapping("/generalInfo/{generalInfoId}")
+    public ResponseEntity<List<QuillResponseDTO>> getQuillsByGeneralInfo(@PathVariable Integer generalInfoId) {
+        List<QuillResponseDTO> quills = quillService.getQuillsByGeneralInfoId(generalInfoId);
+        return ResponseEntity.ok(quills);
+    }
+
+    @GetMapping("/getUserQuills/{userId}")
+    public ResponseEntity<List<QuillResponseDTO>> getQuillsByUserId(@PathVariable Integer userId) {
+        List<QuillResponseDTO> userQuills = quillService.getQuillsByUserId(userId);
+        return ResponseEntity.ok(userQuills);
     }
 
     private ResponseEntity<Page<QuillResponseDTO>> getPageResponseEntity(Page<Quill> quills) {
@@ -60,8 +67,9 @@ public class QuillController {
             QuillResponseDTO dto = new QuillResponseDTO();
             dto.setId(existingQuill.getId());
             dto.setUserId(existingQuill.getUserId());
+            dto.setUsername(existingQuill.getUsername());
             dto.setGeneralInfoId(existingQuill.getGeneralInfoId());
-            dto.setContent(existingQuill.getContent());
+            dto.setQuill(existingQuill.getQuill());
             dto.setCreatedAt(existingQuill.getCreatedAt());
             return dto;
         });

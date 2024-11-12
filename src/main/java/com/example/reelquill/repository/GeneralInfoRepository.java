@@ -1,5 +1,6 @@
 package com.example.reelquill.repository;
 
+import com.example.reelquill.dto.GeneralInfoResponseDTO;
 import com.example.reelquill.model.GeneralInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
