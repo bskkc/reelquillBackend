@@ -45,4 +45,10 @@ public class FriendController {
 
         return ResponseEntity.ok(responseDTO);
     }
+
+    @PostMapping("/check")
+    public ResponseEntity<Boolean> checkIfFriends(@RequestBody FriendRequestDTO friend) {
+        boolean areFriends = friendService.areFriends(friend.getUserId(), friend.getFriendId());
+        return ResponseEntity.ok(areFriends);
+    }
 }
